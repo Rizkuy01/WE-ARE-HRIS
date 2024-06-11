@@ -232,8 +232,7 @@
                                             <th>Name</th>
                                             <th>Position</th>
                                             <th>Office</th>
-                                            <th>Address</th>
-                                            <th>Age</th>
+                                            <th>Email</th>
                                             <th>Start date</th>
                                             <th>Salary</th>
                                         </tr>
@@ -241,17 +240,15 @@
                                     <tbody>
                                         <?php
                                         require_once '../conn.php';
-                                        $sql = "SELECT id, name, position, office, address, age, start_date, salary FROM employee";
+                                        $sql = "SELECT id_employees, name, id_position, id_departement, email, start_date, salary FROM employees";
                                         $result = $conn->query($sql);
                                             if ($result->num_rows > 0) {
                                                 while($row = $result->fetch_assoc()) {
                                                     echo "<tr>";
-                                                    echo "<td>" . $row["time"] . "</td>";
                                                     echo "<td>" . $row["name"] . "</td>";
-                                                    echo "<td>" . $row["position"] . "</td>";
-                                                    echo "<td>" . $row["office"] . "</td>";
-                                                    echo "<td>" . $row["address"] . "</td>";
-                                                    echo "<td>" . $row["age"] . "</td>";
+                                                    echo "<td>" . $row["id_position"] . "</td>";
+                                                    echo "<td>" . $row["id_departement"] . "</td>";
+                                                    echo "<td>" . $row["email"] . "</td>";
                                                     echo "<td>" . $row["start_date"] . "</td>";
                                                     echo "<td>" . $row["salary"] . "</td>";
                                                 }

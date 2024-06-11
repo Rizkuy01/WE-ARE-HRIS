@@ -236,24 +236,26 @@
                                             <thead>
                                                 <tr>
                                                     <th>Name</th>
-                                                    <th>Position</th>
-                                                    <th>Salary</th>
-                                                    <th>Tax</th>
+                                                    <th>Bruto</th>
+                                                    <th>Allowance</th>
+                                                    <th>Cuts</th>
+                                                    <th>Nett</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php
                                                 require_once '../conn.php';
-                                                $sql = "SELECT id, name, position, salary, tax FROM payroll";
+                                                $sql = "SELECT id_salary, id_employees, bruto_salary, allowance, cuts_salary, nett_salary FROM salary";
                                                 $result = $conn->query($sql);
                                                     if ($result->num_rows > 0) {
                                                         while($row = $result->fetch_assoc()) {
                                                             echo "<tr>";
-                                                            echo "<td>" . $row["name"] . "</td>";
-                                                            echo "<td>" . $row["position"] . "</td>";
-                                                            echo "<td>" . $row["salary"] . "</td>";
-                                                            echo "<td>" . $row["tax"] . "</td>";
+                                                            echo "<td>" . $row["id_employees"] . "</td>";
+                                                            echo "<td>" . $row["bruto_salary"] . "</td>";
+                                                            echo "<td>" . $row["allowance"] . "</td>";
+                                                            echo "<td>" . $row["cuts_salary"] . "</td>";
+                                                            echo "<td>" . $row["nett_salary"] . "</td>";
                                                             echo "<td>
                                                                         <button type='submit' class='btn btn-success btn-sm'>Pay</button>
                                                                     </td>";
