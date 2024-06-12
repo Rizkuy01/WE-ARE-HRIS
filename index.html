@@ -75,7 +75,7 @@
 
             <!-- Nav Item - Payroll -->
             <li class="nav-item">
-                <a class="nav-link" href="charts.php">
+                <a class="nav-link" href="payroll.php">
                     <i class="fas fa-money-bill"></i>
                     <span>Payroll</span></a>
             </li>
@@ -221,6 +221,24 @@
                     <!-- Content Row -->
                     <div class="row">
 
+                        <!-- Current Time Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                Current Date and Time</div>
+                                            <div id="realTimeClock" class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-clock fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-primary shadow h-100 py-2">
@@ -239,25 +257,8 @@
                             </div>
                         </div>
 
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Earnings (Annual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <!-- Earnings (Monthly) Card Example -->
+                        <!-- Projects Card Example -->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-info shadow h-100 py-2">
                                 <div class="card-body">
@@ -439,6 +440,26 @@
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
 
+    <!-- Date Time -->
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            const dayName = days[now.getDay()];
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const year = now.getFullYear();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const formattedDate = `${day}-${month}-${year}`;
+            const formattedTime = `${hours}:${minutes}:${seconds}`;
+            document.getElementById('realTimeClock').textContent = `${dayName}, ${formattedDate} ${formattedTime}`;
+        }
+
+        setInterval(updateTime, 1000);
+        updateTime();
+    </script>
 </body>
 
 </html>

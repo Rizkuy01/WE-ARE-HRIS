@@ -75,7 +75,7 @@
 
             <!-- Nav Item - Payroll -->
             <li class="nav-item">
-                <a class="nav-link" href="charts.php">
+                <a class="nav-link" href="payroll.php">
                     <i class="fas fa-money-bill"></i>
                     <span>Payroll</span></a>
             </li>
@@ -233,7 +233,7 @@
                                 <div class="card-body">
                                     <div class="table-responsive">
                                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                            <thead>
+                                            <thead class="text-center">
                                                 <tr>
                                                     <th>Name</th>
                                                     <th>Bruto</th>
