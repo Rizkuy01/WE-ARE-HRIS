@@ -244,27 +244,32 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php
-                                                require_once '../conn.php';
-                                                $sql = "SELECT id_salary, id_employees, bruto_salary, allowance, cuts_salary, nett_salary FROM salary";
-                                                $result = $conn->query($sql);
-                                                    if ($result->num_rows > 0) {
-                                                        while($row = $result->fetch_assoc()) {
-                                                            echo "<tr>";
-                                                            echo "<td>" . $row["id_employees"] . "</td>";
-                                                            echo "<td>" . $row["bruto_salary"] . "</td>";
-                                                            echo "<td>" . $row["allowance"] . "</td>";
-                                                            echo "<td>" . $row["cuts_salary"] . "</td>";
-                                                            echo "<td>" . $row["nett_salary"] . "</td>";
-                                                            echo "<td>
-                                                                        <button type='submit' class='btn btn-success btn-sm'>Pay</button>
-                                                                    </td>";
-                                                        }
-                                                    } else {
-                                                        echo "<tr><td colspan='3'>Data not found</td></tr>";
-                                                    }
-                                                    $conn->close();
-                                                    ?>
+                                            <?php
+                                            require_once 'database/conn.php';
+                                            $sql = "SELECT s.id_salary, e.name AS employee_name, s.bruto_salary, s.allowance, s.cuts_salary, s.nett_salary 
+                                                    FROM salary s
+                                                    JOIN employees e ON s.id_employees = e.id_employees";
+
+                                            $result = $conn->query($sql);
+
+                                            if ($result->num_rows > 0) {
+                                                while($row = $result->fetch_assoc()) {
+                                                    echo "<tr>";
+                                                    echo "<td>" . $row["employee_name"] . "</td>";
+                                                    echo "<td>" . $row["bruto_salary"] . "</td>";
+                                                    echo "<td>" . $row["allowance"] . "</td>";
+                                                    echo "<td>" . $row["cuts_salary"] . "</td>";
+                                                    echo "<td>" . $row["nett_salary"] . "</td>";
+                                                    echo "<td>
+                                                            <button type='submit' class='btn btn-success btn-sm'>Pay</button>
+                                                        </td>";
+                                                    echo "</tr>";
+                                                }
+                                            } else {
+                                                echo "<tr><td colspan='6'>Data not found</td></tr>";
+                                            }
+                                            $conn->close();
+                                            ?>
                                             </tbody>
                                         </table>
                                     </div>

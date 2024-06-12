@@ -238,25 +238,32 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php
-                                        require_once '../conn.php';
-                                        $sql = "SELECT id_employees, name, id_position, id_departement, email, start_date, salary FROM employees";
-                                        $result = $conn->query($sql);
-                                            if ($result->num_rows > 0) {
-                                                while($row = $result->fetch_assoc()) {
-                                                    echo "<tr>";
-                                                    echo "<td>" . $row["name"] . "</td>";
-                                                    echo "<td>" . $row["id_position"] . "</td>";
-                                                    echo "<td>" . $row["id_departement"] . "</td>";
-                                                    echo "<td>" . $row["email"] . "</td>";
-                                                    echo "<td>" . $row["start_date"] . "</td>";
-                                                    echo "<td>" . $row["salary"] . "</td>";
-                                                }
-                                            } else {
-                                                echo "<tr><td colspan='3'>Data not found</td></tr>";
-                                            }
-                                            $conn->close();
-                                            ?>
+                                    <?php
+                                    require_once 'database/conn.php';
+                                    $sql = "SELECT e.id_employees, e.name, p.name_positions, d.nama_departement, e.email, e.start_date, e.salary 
+                                            FROM employees e
+                                            JOIN position p ON e.id_position = p.id_position
+                                            JOIN departement d ON e.id_departement = d.id_departement";
+
+                                    $result = $conn->query($sql);
+
+                                    if ($result->num_rows > 0) {
+                                        while($row = $result->fetch_assoc()) {
+                                            echo "<tr>";
+                                            echo "<td>" . $row["name"] . "</td>";
+                                            echo "<td>" . $row["name_positions"] . "</td>";
+                                            echo "<td>" . $row["nama_departement"] . "</td>"; 
+                                            echo "<td>" . $row["email"] . "</td>";
+                                            echo "<td>" . $row["start_date"] . "</td>";
+                                            echo "<td>" . $row["salary"] . "</td>";
+                                            echo "</tr>"; 
+                                        }
+                                    } else {
+                                        echo "<tr><td colspan='6'>Data not found</td></tr>"; 
+                                    }
+                                    $conn->close();
+                                    ?>
+
                                     </tbody>
                                 </table>
                             </div>
