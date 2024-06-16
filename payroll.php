@@ -214,11 +214,7 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Charts</h1>
-                    <p class="mb-4">Chart.js is a third party plugin that is used to generate the charts in this theme.
-                        The charts below have been customized - for further customization options, please visit the <a
-                            target="_blank" href="https://www.chartjs.org/docs/latest/">official Chart.js
-                            documentation</a>.</p>
+                    <h1 class="h3 mb-2 text-gray-800">Payroll</h1>
 
                     <!-- Content Row -->
                     <div class="row">
@@ -261,10 +257,11 @@
                                                     echo "<td>" . $row["cuts_salary"] . "</td>";
                                                     echo "<td>" . $row["nett_salary"] . "</td>";
                                                     echo "<td>
-                                                            <button type='submit' class='btn btn-success btn-sm'>Pay</button>
+                                                            <button type='button' class='btn btn-success btn-sm pay-btn' data-id='" . $row["id_salary"] . "'>Pay</button>
                                                         </td>";
                                                     echo "</tr>";
                                                 }
+                                                
                                             } else {
                                                 echo "<tr><td colspan='6'>Data not found</td></tr>";
                                             }
@@ -280,19 +277,11 @@
 
                         <!-- Pie Chart -->
                         <div class="col-xl-4 col-lg-5">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <div class="card shadow mb-4" id="salaryDetails">
+                                <!-- Kartu ini akan diisi dengan rincian gaji menggunakan JavaScript -->
+                                <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Daily Attendance</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                    </div>
                                 </div>
-                                <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-pie pt-4 pb-2">
                                         <canvas id="myPieChart"></canvas>
@@ -311,6 +300,7 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
 
                 </div>
@@ -377,6 +367,38 @@
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
     <script src="js/demo/chart-bar-demo.js"></script>
+
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+<script>
+    $(document).ready(function() {
+        $('.pay-btn').click(function() {
+            var salaryId = $(this).data('id');
+            
+            $.ajax({
+                url: 'get_salary_details.php',
+                type: 'GET',
+                data: { id: salaryId },
+                success: function(response) {
+                    var data = JSON.parse(response);
+                    $('#salaryDetails').html(`
+                        <h6 class="m-0 font-weight-bold text-primary">Salary Details</h6>
+                        <p>Name: ${data.employee_name}</p>
+                        <p>Bruto: ${data.bruto_salary}</p>
+                        <p>Allowance: ${data.allowance}</p>
+                        <p>Cuts: ${data.cuts_salary}</p>
+                        <p>Nett: ${data.nett_salary}</p>
+                        <button id="payNow" class="btn btn-primary">Pay Now</button>
+                    `);
+                    
+                    $('#payNow').click(function() {
+                        window.location.href = 'payment_gateway.php?salary_id=' + salaryId;
+                    });
+                }
+            });
+        });
+    });
+</script>
+
 
 </body>
 
