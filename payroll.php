@@ -218,10 +218,7 @@
 
                     <!-- Content Row -->
                     <div class="row">
-
                         <div class="col-xl-8 col-lg-7">
-
-                            <!-- Area Chart -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Area Chart</h6>
@@ -233,7 +230,7 @@
                                                 <tr>
                                                     <th>Name</th>
                                                     <th>Bruto</th>
-                                                    <th>Allowance</th>
+                                                    <th>Allowence</th>
                                                     <th>Cuts</th>
                                                     <th>Nett</th>
                                                     <th>Action</th>
@@ -242,7 +239,7 @@
                                             <tbody>
                                             <?php
                                             require_once 'database/conn.php';
-                                            $sql = "SELECT s.id_salary, e.name AS employee_name, s.bruto_salary, s.allowance, s.cuts_salary, s.nett_salary 
+                                            $sql = "SELECT s.id_salary, e.name AS employee_name, s.bruto_salary, s.allowence, s.cuts_salary, s.nett_salary 
                                                     FROM salary s
                                                     JOIN employees e ON s.id_employees = e.id_employees";
 
@@ -253,7 +250,7 @@
                                                     echo "<tr>";
                                                     echo "<td>" . $row["employee_name"] . "</td>";
                                                     echo "<td>" . $row["bruto_salary"] . "</td>";
-                                                    echo "<td>" . $row["allowance"] . "</td>";
+                                                    echo "<td>" . $row["allowence"] . "</td>";
                                                     echo "<td>" . $row["cuts_salary"] . "</td>";
                                                     echo "<td>" . $row["nett_salary"] . "</td>";
                                                     echo "<td>
@@ -261,7 +258,6 @@
                                                         </td>";
                                                     echo "</tr>";
                                                 }
-                                                
                                             } else {
                                                 echo "<tr><td colspan='6'>Data not found</td></tr>";
                                             }
@@ -272,35 +268,19 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
 
-                        <!-- Pie Chart -->
                         <div class="col-xl-4 col-lg-5">
                             <div class="card shadow mb-4" id="salaryDetails">
                                 <!-- Kartu ini akan diisi dengan rincian gaji menggunakan JavaScript -->
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Daily Attendance</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Salary Details</h6>
                                 </div>
                                 <div class="card-body">
-                                    <div class="chart-pie pt-4 pb-2">
-                                        <canvas id="myPieChart"></canvas>
-                                    </div>
-                                    <div class="mt-4 text-center small">
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> Attend
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-success"></i> Leave
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-info"></i> Overtime
-                                        </span>
-                                    </div>
+                                    <p>Click "Pay" to see details here.</p>
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
                 </div>
@@ -368,8 +348,7 @@
     <script src="js/demo/chart-pie-demo.js"></script>
     <script src="js/demo/chart-bar-demo.js"></script>
 
-    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
-<script>
+    <script>
     $(document).ready(function() {
         $('.pay-btn').click(function() {
             var salaryId = $(this).data('id');
@@ -380,19 +359,25 @@
                 data: { id: salaryId },
                 success: function(response) {
                     var data = JSON.parse(response);
-                    $('#salaryDetails').html(`
-                        <h6 class="m-0 font-weight-bold text-primary">Salary Details</h6>
+                    $('#salaryDetails .card-body').html(`
                         <p>Name: ${data.employee_name}</p>
                         <p>Bruto: ${data.bruto_salary}</p>
                         <p>Allowance: ${data.allowance}</p>
                         <p>Cuts: ${data.cuts_salary}</p>
                         <p>Nett: ${data.nett_salary}</p>
-                        <button id="payNow" class="btn btn-primary">Pay Now</button>
+                        <form action="process_payment.php" method="post">
+                            <input type="hidden" name="salary_id" value="${data.id_salary}">
+                            <div class="form-group">
+                                <label for="paymentMethod">Payment Method</label>
+                                <select class="form-control" id="paymentMethod" name="payment_method">
+                                    <option value="credit_card">Credit Card</option>
+                                    <option value="bank_transfer">Bank Transfer</option>
+                                    <option value="paypal">PayPal</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Proceed to Pay</button>
+                        </form>
                     `);
-                    
-                    $('#payNow').click(function() {
-                        window.location.href = 'payment_gateway.php?salary_id=' + salaryId;
-                    });
                 }
             });
         });

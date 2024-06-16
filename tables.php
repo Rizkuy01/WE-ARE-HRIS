@@ -74,8 +74,6 @@
                 </div>
             </li>
 
-            
-
             <!-- Nav Item - Payroll -->
             <li class="nav-item">
                 <a class="nav-link" href="payroll.php">
@@ -115,7 +113,6 @@
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
-
 
         </ul>
         <!-- End of Sidebar -->
@@ -218,6 +215,11 @@
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Employee's DataTables</h1>
+                    
+                    <!-- Button to Open the Modal -->
+                    <button type="button" class="btn btn-primary mb-4" data-toggle="modal" data-target="#addEmployeeModal">
+                        Add New Employee
+                    </button>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
@@ -242,7 +244,7 @@
                                     require_once 'database/conn.php';
                                     $sql = "SELECT e.id_employees, e.name, p.name_positions, d.nama_departement, e.email, e.start_date, e.salary 
                                             FROM employees e
-                                            JOIN position p ON e.id_position = p.id_position
+                                            JOIN positions p ON e.id_positions = p.id_positions
                                             JOIN departement d ON e.id_departement = d.id_departement";
 
                                     $result = $conn->query($sql);
@@ -296,6 +298,63 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
+
+<!-- Add Employee Modal-->
+<div class="modal fade" id="addEmployeeModal" tabindex="-1" role="dialog" aria-labelledby="addEmployeeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addEmployeeModalLabel">Add New Employee</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addEmployeeForm" action="add_employee.php" method="POST">
+                    <div class="form-group">
+                        <label for="employeeName">Name</label>
+                        <input type="text" class="form-control" id="employeeName" name="name" placeholder="Enter name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="employeeEmail">Email</label>
+                        <input type="email" class="form-control" id="employeeEmail" name="email" placeholder="Enter email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="employeePosition">Position</label>
+                        <input type="text" class="form-control" id="employeePosition" name="position" placeholder="Enter position" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="employeeOffice">Office</label>
+                        <input type="text" class="form-control" id="employeeOffice" name="office" placeholder="Enter office" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="employeeStartDate">Start Date</label>
+                        <input type="date" class="form-control" id="employeeStartDate" name="start_date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="employeeSalary">Salary</label>
+                        <input type="number" class="form-control" id="employeeSalary" name="salary" placeholder="Enter salary" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="employeeAddress">Address</label>
+                        <input type="text" class="form-control" id="employeeAddress" name="address" placeholder="Enter Address" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="employeePhone">Phone</label>
+                        <input type="number" class="form-control" id="employeePhone" name="phone" placeholder="Enter Phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="employeeStartBirth">Date of Birth</label>
+                        <input type="date" class="form-control" id="employeeBirth" name="birth" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
